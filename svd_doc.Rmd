@@ -1,0 +1,115 @@
+---
+title: "Understanding SVD and Implementing"
+author: "Kerem Turgutlu"
+output: pdf_document
+---
+
+
+**1) Eigenvalues and Eigenvectors**
+
+\begin{equation*}
+\begin{aligned}
+\lambda_i = eigenvalue&, x_i = eigenvector\\\\
+Ax_1 &= \lambda x_1\\\\
+Ax_2 &= \lambda x_2\\\\
+Ax_3 &= \lambda x_3\\\\
+&...\\\
+Ax_n &= \lambda x_n
+\end{aligned}
+\end{equation*}
+
+
+
+
+**2) Diagonizaling a Matrix**
+
+  We can write the expression about eigenvalues and eigenvectors in a matrix form.
+
+\begin{equation*}
+\begin{aligned}
+A[x_1, x_2,...,x_n] &= [\lambda_1x_1, \lambda_2x_2, ..., \lambda_nx_n]\\\\
+AX &= X \Lambda\\\\
+A &= X \Lambda X^{-}\\\\
+\end{aligned}
+\end{equation*}
+
+**3) For symmetric matrices the case is special**
+
+  A is a symmetric matrix
+
+\begin{equation*}
+\begin{aligned}
+A &= X \Lambda X^{T}\\\\
+\end{aligned}
+\end{equation*}
+
+**4) SVD is basically a rotation and a scaling operation which is applied on a matrix **
+
+In other words it is a mapping from row space to column space of A:
+
+Let v1 and v2 be orthonormal basis in row space and let u1 and u2 be orthonormal basis in column space of A.
+
+Then we can formulate the following mapping:
+
+\begin{equation*}
+\begin{aligned}
+Av_1 = \sigma_1 u_1\\\\
+\end{aligned}
+\end{equation*}
+
+We know that symmetric positive definite  matrices have positive eigenvalues and has orthonormal eigenvectors. This satisfies the above expression.
+
+Let A be an mxn matrix, we can write the following expression in matrix form for all $Av_i = \sigma_i u_i$
+
+\begin{equation*}
+\begin{aligned}
+AV = U\Sigma\\\\
+A = U\Sigma V^{-}\\\\
+\end{aligned}
+\end{equation*}
+
+Because V is orthonormal we can write like this
+
+\begin{equation*}
+\begin{aligned}
+A = U\Sigma V^{T}
+\end{aligned}
+\end{equation*}
+
+
+**4) SVD for any matrix**
+
+What we want now is a symmetric matrix to get to the conclusion
+
+
+\begin{equation*}
+\begin{aligned}
+AA^{T} = U\Sigma V^{T}V\Sigma^{T}U^{T}\\\\
+AA^{T} = U\Sigma (V^{T}V)\Sigma^{T}U^{T}\\\\
+AA^{T} = U\Sigma (I)\Sigma^{T}U^{T}\\\\
+AA^{T} = U(\Sigma\Sigma^{T})U^{T}\\\\
+AA^{T} = U\Sigma^{2}U^{T}\\\\
+\end{aligned}
+\end{equation*}
+
+So, we see from the last expression that A and $AA^{T}$ have $\Sigma$ and $\Sigma^2$ as their diagonal matrices / eigenvalues. Here, $\Sigma$ is also called singular values. Since $AA^{T}$ is symmetric positive definite we can compute it's eigenvalues and eigenvectors to solve for $\Sigma$ and U.
+
+Similarly:
+
+\begin{equation*}
+\begin{aligned}
+A^{T}A = V\Sigma^{T}U^{T}U\Sigma V^{T}\\\\
+A^{T}A = V\Sigma^{T}(U^{T}U)\Sigma V^{T}\\\\
+A^{T}A = V\Sigma^{T}(I)\Sigma V^{T}\\\\
+A^{T}A = V(\Sigma^{T}\Sigma) V^{T}\\\\
+A^{T}A = V\Sigma^{2} V^{T}\\\\
+\end{aligned}
+\end{equation*}
+
+Thank to properties of symmetric positive definite matrices you can go at any direction to find SVD of any given matrix.
+
+
+
+
+
+
