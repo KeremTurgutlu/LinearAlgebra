@@ -1,6 +1,7 @@
 def leastSquaresReg(filename, x_var, y_var):
     import numpy as np
     import pandas as pd
+    import matplotlib.pyplot as plt
     #Read Data
     df = pd.read_csv(filename)
     #Create constant coeffs
