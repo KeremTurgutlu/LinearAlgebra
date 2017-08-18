@@ -107,3 +107,61 @@ def SVD_Plot(imagepath_list):
     plab.ylim(0, 1)
     plab.legend()
     plab.show()
+
+def SVD_Image2(image_path, k, plot = "bar"):
+
+    if type(image_path) == str:
+        # READ IMAGE AND COMPUTE SYMMETRICAL MATRICES
+        img = Image.open(image_path)
+        img = img.convert("L")
+        ncols = img.size[0]
+        nrows = img.size[1]
+        A = np.asarray(img.getdata()).reshape(nrows, ncols)
+    else:
+        A = image_path
+        ncols = image_path.shape[1]
+        nrows = image_path.shape[0]
+
+    Q1 = A.dot(A.T)
+    Q2 = A.T.dot(A)
+
+    # FIND RANK OF A
+    r = np.linalg.matrix_rank(A)
+
+    # FIND V AND SINGULAR VALUES
+    sigma_2, v = np.linalg.eigh(Q2)
+    singular_vals = np.sqrt(list(reversed(sigma_2))[:r])
+    v = np.flip(v, 1)
+    diagonal_singvals = np.diag(singular_vals)
+
+
+    # COMPUTE U
+    u = np.dot(A, v[:, :r]).dot(np.linalg.inv(diagonal_singvals))
+    print(u.shape)
+    print(v.shape)
+    A2 = np.zeros(ncols*nrows).reshape(nrows, ncols)
+
+    # RECONSTRUCT IMAGE
+    for i in range(k):
+      A2 +=  singular_vals[i].real*(np.outer(u[:, i].real, v[:, i].real))
+
+    A2 =  np.dot(u[:, :k], diagonal_singvals[:k, :k]).dot(v.T[:k, :])
+
+    img = Image.fromarray(np.uint8(A2))
+    img.show()
+
+    # PLOT SINGULAR VALUES
+    if plot == "bar":
+        plt.bar(np.arange(k)+1, singular_vals[:k])
+        plt.xlabel("Singular Value Rank")
+        plt.ylabel("Singular Value")
+        plt.title('Top %s Singular Values' %k)
+        plt.show()
+    elif plot == "line":
+        plt.plot(np.arange(k) + 1, singular_vals[:k])
+        plt.xlabel("Singular Value Rank")
+        plt.ylabel("Singular Value")
+        plt.title('Top %s Singular Values' % k)
+        plt.show()
+
+SVD_Image2("me.jpg", 20)

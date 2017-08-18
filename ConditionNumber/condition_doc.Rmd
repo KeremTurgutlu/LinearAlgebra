@@ -1,0 +1,129 @@
+---
+title: "Condition Number, When to Approximate for Ax = b?"
+author: "Kerem Turgutlu"
+output: pdf_document
+---
+
+When a matrix is not solvable in the form of the equation Ax = b, or in detail if it has infinitely many solutions we may introduce a method in order to approximate a solution to this unsolvable system. Which is basically to add noise to b or in other words to change the direction of b just as $\epsilon$ so that there will be one unique solution for Ax = b.
+
+This seems simple and straightforward but it may cause very unwanted results if it's not carefully investigated. 
+
+Here is a naive example how changing b by $\epsilon$ effects the change in x, which we call $\delta$.
+
+\begin{equation*}
+\begin{aligned}
+Ax &= b\\
+A(x + \delta) &= b + \epsilon\\
+A\vec{x} + A\vec{\delta} &= \vec{b} + \vec{\epsilon}
+\end{aligned}
+\end{equation*}
+
+We want $||\delta||$ to be small while $||\epsilon||$ is big.
+
+Or inequality for good approximation would be $||\delta|| \leq ||\epsilon||$, but we should normalized them for better comparison, or in other words we shoul look at their marginal changes.
+
+\begin{equation*}
+\begin{aligned}
+&\frac{||\delta||}{||x||} \leq \frac{||\epsilon||}{||b||}\\\\
+&\frac{||b||}{|||x||}\frac{||\delta||}{||\epsilon||} \leq 1\\
+\end{aligned}
+\end{equation*}
+
+How do we define these norms:
+
+
+\begin{equation*}
+\begin{aligned}
+Ax &= \lambda x\\
+b &= \lambda x\\\\
+||b|| &= ||\lambda|| ||x||\\
+\frac{||b||}{||x||} &= ||\lambda||\\\\
+||\lambda_{min}|| \leq &\frac{||b||}{||x||} \leq ||\lambda_{max}||\\
+\end{aligned}
+\end{equation*}
+
+Similarly:
+
+\begin{equation*}
+\begin{aligned}
+A\delta &= \epsilon \\\\
+||\delta|| &= \frac{||\epsilon||}{||\lambda||}\\
+\frac{||\epsilon||}{||\delta||} &= ||\lambda||\\\\
+||\lambda_{min}|| \leq &\frac{||\epsilon||}{||\delta||} \leq ||\lambda_{max}||\\
+\frac{1}{||\lambda_{min}||} \geq &\frac{||\delta||}{||\epsilon||} \geq \frac{1}{||\lambda_{max}||}\\
+\end{aligned}
+\end{equation*}
+
+
+Then:
+
+\begin{equation*}
+\begin{aligned}
+\frac{||b||}{|||x||}\frac{||\delta||}{||\epsilon||} \leq \frac{||\lambda_{max}||}{||\lambda_{min}||}
+\end{aligned}
+\end{equation*}
+
+This upper bound is our condition number. As we stated at the beginning a number less than or close to 1 makes a matrix well conditioned.
+
+
+**Problem**
+
+What if matrix A is not diagonalizable or symmetric, then eigenvalues might be all 0s and this boundary won't be defined. Actually we will define this ineqaulity in a different way so that it will be applicable to all matrices out there.
+
+If matrix A is diagonalizable, $A = P\Lambda P^{-1}$ then:
+
+- $\Lambda:$ n diagonal eigenvalues.
+
+- P: n independent eigenvectors.
+
+- $||Ax|| = ||\lambda|| ||x||$
+
+- $||A|| = ||\lambda_{max}||$
+
+- $||A^{-1}|| = ||\lambda_{min}||$
+
+
+**Defining Norm of a Matrix:**
+
+- $||A|| = max_{||x|| \neq0}\frac{||Ax||}{||x||}$
+
+By taking the square of the norm we see a relationship with SVD.
+
+\begin{equation*}
+\begin{aligned}
+||A||^2 &= \frac{||Ax||^2}{||x||^2}\\
+||A||^2 &= \frac{||x^TA^TAx||}{||x^Tx||}\\
+||A||^2 &= \frac{||x^TA^TAx||}{||x^Tx||}\\
+\end{aligned}
+\end{equation*}
+
+Since $A^TA$ is always symmetric:
+
+\begin{equation*}
+\begin{aligned}
+||A||^2 = ||\lambda_{A^TA}\||_{max}\\\\
+||A|| = \sqrt{||\lambda_{A^TA}\||_{max}}\\
+\end{aligned}
+\end{equation*}
+
+From SVD we know that $A^TA = V\Sigma^2V^T$:
+
+
+\begin{equation*}
+\begin{aligned}
+||A|| = max\{\sigma_{A}\}\\\\
+||A^{-1}|| = \frac{1}{min\{\sigma_{A}\}}\\\\
+C.N. = \frac{max(\sigma_A)}{min(\sigma_A)}
+\end{aligned}
+\end{equation*}
+
+**In conclusion, condition number of any given matrix A is the ratio of largest singular value to smallest.**
+
+
+
+
+
+
+
+
+
