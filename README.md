@@ -8,6 +8,6 @@ This repository consists of Linear Algebra applications with their documentation
 
 **3) SVD:** Understanding singular value decomposition, why we can apply it to any given matrix.
 
-**4) PageRank:** Exploring how PageRank algorithm gives one unique solution with posiive column stochastic matrices.
+**4) PageRank:** Exploring how PageRank algorithm gives one unique solution with positive column stochastic matrices.
 
 **5) ConditionNumer:** To understand how well our approximations for Ax = b, under terms of ill-conditioned and well-conditioned matrices. 
